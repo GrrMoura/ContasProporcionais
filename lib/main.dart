@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/dialog.dart';
+import 'package:flutter/services.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(title: "Contas Proporcionais", home: Home()));
@@ -20,13 +20,13 @@ class _HomeState extends State<Home> {
   TextEditingController nomeContaControl = new TextEditingController();
   TextEditingController valorContaControl = new TextEditingController();
 
-  String nome = "Nome";
-  String conjuge = "Conjuge";
+  String nome = "        Nome";
+  String conjuge = "         Conjuge";
   String infoTexto = "";
   double totalNome = 0;
 
-  String strVenciNome = "Vencimento";
-  String strVenciConjuge = "Vencimento";
+  String strVenciNome = "     Vencimento";
+  String strVenciConjuge = "     Vencimento";
   double totalConjuge = 0;
 
   List<String> nomes = [];
@@ -146,8 +146,8 @@ class _HomeState extends State<Home> {
       nomeContaControl.clear();
       valorContaControl.clear();
 
-      nome = "Nome";
-      conjuge = "Conjuge";
+      nome = "        Nome";
+      conjuge = "         Conjuge";
 
       aux = 0;
     });
@@ -162,6 +162,51 @@ class _HomeState extends State<Home> {
         strVenciConjuge = "Total R\$:" + totalConjuge.toStringAsPrecision(3);
       }
     });
+  }
+
+  Widget builderTypeString(
+    String label,
+    TextEditingController controller,
+  ) {
+    return Padding(
+        padding: EdgeInsets.only(left: 10, right: 20),
+        child: TextField(
+          cursorColor: Colors.black87,
+          keyboardType: TextInputType.text,
+          style: TextStyle(color: Colors.black87, fontSize: 20),
+          decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black87)),
+              labelText: label,
+              labelStyle: TextStyle(
+                color: Colors.yellow[500],
+                fontSize: 20,
+              )),
+          controller: controller,
+        ));
+  }
+
+  Widget builderTypeNumber(
+    String label,
+    TextEditingController controller,
+  ) {
+    return Padding(
+        padding: EdgeInsets.only(left: 14, right: 10),
+        child: TextField(
+          cursorColor: Colors.black87,
+          keyboardType: TextInputType.number,
+          style: TextStyle(color: Colors.black87, fontSize: 20),
+          decoration: InputDecoration(
+              prefix: Text("R\$"),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black87)),
+              labelText: label,
+              labelStyle: TextStyle(
+                color: Colors.yellow[500],
+                fontSize: 20,
+              )),
+          controller: controller,
+        ));
   }
 
   @override
@@ -195,164 +240,82 @@ class _HomeState extends State<Home> {
                 // NOME PRINCIPAL
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
                   Flexible(
                     child: Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: TextField(
-                        cursorColor: Colors.black87,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(color: Colors.black87, fontSize: 20),
-                        decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black87)),
-                            labelText: nome,
-                            labelStyle: TextStyle(
-                                fontSize: 20, color: Colors.yellow[500])),
-                        controller: nomeControl,
-                      ),
-                    ),
+                        textDirection: TextDirection.ltr,
+                        child: builderTypeString(nome, nomeControl)),
                   ),
 
-                  SizedBox(width: 50), //NOME CONJUGE
+                  //NOME CONJUGE
                   Flexible(
-                    child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(accentColor: Colors.black87),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 5, bottom: 5),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            cursorColor: Colors.black87,
-                            keyboardType: TextInputType.number,
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 20),
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black87)),
-                              labelText: strVenciNome,
-                              labelStyle: TextStyle(
-                                  color: Colors.yellow[500], fontSize: 20),
-                            ),
-                            controller: venciNomeControl,
-                          ),
-                        )),
-                  )
+                      child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(accentColor: Colors.black87),
+                          child: builderTypeNumber(
+                              strVenciNome, venciNomeControl))),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(width: 10),
                   Flexible(
                     child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(accentColor: Colors.black87),
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        cursorColor: Colors.black87,
-                        style: TextStyle(color: Colors.black87, fontSize: 20),
-                        decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black87)),
-                            labelText: conjuge,
-                            labelStyle: TextStyle(
-                                color: Colors.yellow[500], fontSize: 20)),
-                        controller: conjugeControl,
-                      ),
-                    ),
+                        data: Theme.of(context)
+                            .copyWith(accentColor: Colors.black87),
+                        child: builderTypeString(conjuge, conjugeControl)),
                   ),
-                  SizedBox(width: 50),
                   Flexible(
                     child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(accentColor: Colors.black87),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 5),
-                        child: TextField(
-                          cursorColor: Colors.black87,
-                          keyboardType: TextInputType.number,
-                          style: TextStyle(fontSize: 20, color: Colors.black87),
-                          decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black87)),
-                              labelText: strVenciConjuge,
-                              labelStyle: TextStyle(
-                                  color: Colors.yellow[500], fontSize: 20)),
-                          controller: venciConjuControl,
-                        ),
-                      ),
-                    ),
-                  )
+                        data: Theme.of(context)
+                            .copyWith(accentColor: Colors.black87),
+                        child: builderTypeNumber(
+                            strVenciConjuge, venciConjuControl)),
+                  ),
                 ],
               ),
+              Divider(),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    disabledColor: Colors.black54,
-                    onPressed: null,
-                    child: Text(""),
-                  ),
-                ],
-              ),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        disabledColor: Colors.black54,
+                        onPressed: null,
+                        child: Text(""))
+                  ]),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  Flexible(
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: builderTypeString("   Conta", nomeContaControl),
+                    ),
+                  ),
                   Flexible(
                     child: Theme(
                       data: Theme.of(context)
                           .copyWith(accentColor: Colors.black87),
-                      child: TextField(
-                        cursorColor: Colors.black87,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(color: Colors.black87, fontSize: 20),
-                        decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black87)),
-                            labelText: "        Conta",
-                            labelStyle: TextStyle(
-                                color: Colors.yellow[500], fontSize: 20)),
-                        controller: nomeContaControl,
-                      ),
+                      child: builderTypeNumber("   Valor", valorContaControl),
                     ),
                   ),
-                  SizedBox(width: 50),
                   Flexible(
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(accentColor: Colors.black87),
-                      child: TextField(
-                        cursorColor: Colors.black87,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 20, color: Colors.black87),
-                        decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black87)),
-                            labelText: "          Valor",
-                            labelStyle: TextStyle(
-                                color: Colors.yellow[500], fontSize: 20)),
-                        controller: valorContaControl,
-                      ),
-                    ),
-                  ),
+                      child: Theme(
+                    data:
+                        Theme.of(context).copyWith(accentColor: Colors.black87),
+                    child: RaisedButton(
+                        color: Colors.black45,
+                        onPressed: _addContas,
+                        child: Text(
+                          "ADD",
+                          style: TextStyle(
+                              color: Colors.yellow[400], fontSize: 20),
+                        )),
+                  ))
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    iconSize: 50,
-                    onPressed: _addContas,
-                  )
-                ],
-              ),
+              Divider(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -362,7 +325,7 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(30)),
                     onPressed: _mostrarResultados,
                     child: Text(
-                      "Resultado",
+                      "Calcular",
                       style: TextStyle(color: Colors.yellow[500], fontSize: 20),
                     ),
                   ),
